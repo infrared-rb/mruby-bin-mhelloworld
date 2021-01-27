@@ -1,8 +1,11 @@
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.1.2"
 
+projname = File.basename(Dir.pwd)
+
 file :mruby do
-  sh "git clone --depth=1 git://github.com/mruby/mruby.git"
+  sh "git clone --depth=1 git://github.com/mruby/mruby.git ~/#{projname}-mruby"
+  sh "ln -s ~/#{projname}-mruby ./mruby"
   if MRUBY_VERSION != 'master'
     Dir.chdir 'mruby' do
       sh "git fetch --tags"
