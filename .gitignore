@@ -1,1 +1,7 @@
 mruby/
+bpf/vmlinax.h
+src/*.bpf.h
+
+*.out
+*.o
+vmlinux.h
