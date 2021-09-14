@@ -7,9 +7,9 @@
 
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
+#include "types.h"
 
 #define MAX_ENTRIES	10240
-#define MAX_SLOTS	15
 
 // https://github.com/iovisor/bcc/blob/master/libbpf-tools/bits.bpf.h
 static __always_inline u64 log2(u32 v)
@@ -34,10 +34,6 @@ static __always_inline u64 log2l(u64 v)
   else
     return log2(v);
 }
-
-struct hist {
-  __u32 slots[MAX_SLOTS];
-};
 
 const volatile pid_t targ_pid = -1;
 static struct hist initial_hist = {0};

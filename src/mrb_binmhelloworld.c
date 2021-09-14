@@ -10,6 +10,8 @@
 #include <mruby/data.h>
 #include <mruby/error.h>
 #include "mrb_binmhelloworld.h"
+
+#include "types.h"
 #include "helloworld.bpf.h"
 
 #define DONE mrb_gc_arena_restore(mrb, 0);
@@ -50,17 +52,6 @@ static mrb_value mrb_helloworld_bpf_attach(mrb_state *mrb, mrb_value self)
 {
   struct helloworld_bpf *data = DATA_PTR(self);
   return mrb_fixnum_value(helloworld_bpf__attach(data));
-}
-
-static mrb_value mrb_helloworld_bpf_get_hist(mrb_state *mrb, mrb_value self)
-{
-  struct helloworld_bpf *data = DATA_PTR(self);
-  struct hist hist = {0};
-  struct hist_key *init = NULL, prev = {0}, key = {0};
-  mrb_value hist = mrb_obj_alloc(mrb, MRB_TT_OBJECT, mrb->object_class);
-
-  data->maps.hists;
-  return hists;
 }
 
 void mrb_mruby_bin_mhelloworld_gem_init(mrb_state *mrb)

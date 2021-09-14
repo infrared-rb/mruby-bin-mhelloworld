@@ -32,6 +32,8 @@ MRuby::Gem::Specification.new('mruby-bin-mhelloworld') do |spec|
       sh "clang -O1 -c -g -target bpf #{bpfdir}/helloworld.bpf.c -o #{bpfdir}/helloworld.bpf.o"
     end
 
+    headers = []
+
     file "#{srcdir}/helloworld.bpf.h" => "#{bpfdir}/helloworld.bpf.o" do
       puts "bpftool\tgen skeleton #{bpfdir}/helloworld.bpf.o > #{srcdir}/helloworld.bpf.h"
       begin
@@ -41,9 +43,17 @@ MRuby::Gem::Specification.new('mruby-bin-mhelloworld') do |spec|
         raise e
       end
     end
+    headers << "#{srcdir}/helloworld.bpf.h"
+
+    if File.exist? "#{bpfdir}/types.h"
+      file "#{srcdir}/types.h" => "#{bpfdir}/types.h" do
+        sh "cp #{bpfdir}/types.h #{srcdir}/types.h"
+      end
+      headers << "#{srcdir}/types.h"
+    end
 
     c_codes = Dir.glob("#{srcdir}/*.c")
-    file c_codes[0] => "#{srcdir}/helloworld.bpf.h"
+    file c_codes[0] => headers
   end
 
   spec.generate_bpf_files
