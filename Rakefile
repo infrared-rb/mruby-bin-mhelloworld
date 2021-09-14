@@ -1,18 +1,21 @@
-MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
-MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.1.2"
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config/local.rb")
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "3.0.0"
 
 projname = File.basename(Dir.pwd)
 
 file :mruby do
-  sh "git clone --depth=1 git://github.com/mruby/mruby.git ~/#{projname}-mruby"
-  sh "ln -s ~/#{projname}-mruby ./mruby"
-  if MRUBY_VERSION != 'master'
-    Dir.chdir 'mruby' do
-      sh "git fetch --tags"
-      rev = %x{git rev-parse #{MRUBY_VERSION}}
-      sh "git checkout #{rev}"
+  Dir.chdir ENV['HOME'] do
+    sh "git clone --depth=1 git://github.com/mruby/mruby.git mhello-mruby"
+    if MRUBY_VERSION != 'master'
+      Dir.chdir 'mhello-mruby' do
+        sh "git fetch --tags"
+        rev = %x{git rev-parse #{MRUBY_VERSION}}
+        sh "git checkout #{rev}"
+      end
     end
   end
+
+  sh 'ln -s ~/mhello-mruby mruby'
 end
 
 desc "compile binary"
