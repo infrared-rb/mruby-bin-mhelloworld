@@ -31,6 +31,8 @@ end
 desc "cleanup"
 task :clean do
   exit 0 unless File.directory?('mruby')
+
+  sh "rm -f bpf/*.o bpf/vmlinux.h src/*.bpf.h"
   sh "cd mruby && rake deep_clean"
 end
 

@@ -1,5 +1,5 @@
 mruby/
-bpf/vmlinax.h
+bpf/vmlinux.h
 src/*.bpf.h
 
 *.out
