@@ -1,7 +1,12 @@
 #include "vmlinux.h"
+
+// libbpf versio issue?
+#ifndef PT_REGS_RC
+#define PT_REGS_RC(x) ((x)->ax)
+#endif
+
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
-#include <bpf/bpf_core_read.h>
 
 #define MAX_ENTRIES	10240
 #define MAX_SLOTS	15
